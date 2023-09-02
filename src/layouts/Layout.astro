@@ -1,9 +1,10 @@
 ---
 // Server side JS here
 import Header from "../components/Header.astro"
+import Footer from "../components/Footer.astro"
 ---
 
-<html lang="en">
+<html lang="en" class="2xl:text-[20px]">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -11,8 +12,9 @@ import Header from "../components/Header.astro"
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
-	<body >
+	<body class="antialiased text-default bg-page tracking-tight">
 		<Header />
 		<slot />
+		<Footer />
 	</body>
 </html>
