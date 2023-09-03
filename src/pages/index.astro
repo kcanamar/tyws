@@ -1,11 +1,12 @@
 ---
 import Hero from "~/components/Hero.astro";
-import Layout from "../layouts/Layout.astro"
-
-import { Content } from "../pages/content/home.md"
+import Layout from "~/layouts/Layout.astro"
+import About from "~/components/About.astro";
+import Donation from "~/components/Patreon.astro"
 ---
 
 <Layout>
 	<Hero />
-	<Content />
+	<Donation />
+	<About/>
 </Layout>
