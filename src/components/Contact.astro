@@ -1,0 +1,82 @@
+---
+import emailjs from "@emailjs/browser"
+
+const serviceId = import.meta.env.PUBLIC_EMAIL_SERVICE_ID;
+const templateId = import.meta.env.PUBLIC_EMAIL_TEMPLATE_ID;
+const apiKey = import.meta.env.PUBLIC_EMAIL_KEY;
+console.log({serviceId, templateId, apiKey})
+
+async function sendEmail(formData: any) {
+    console.log(formData, "in send Email")
+    return await emailjs.sendForm(
+        serviceId,
+        templateId,
+        formData,
+        apiKey
+    )
+    .then(result => console.log(result))
+    .catch(error => console.log(error))
+}
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    console.log(data)
+    const name = data.get("name");
+    const email = data.get("email");
+    const message = data.get("message");
+    const formData = {name, email, message,}
+    console.log(formData)
+    const communication = await sendEmail(formData)
+    // Do something with the data
+    console.log(communication)
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+---
+<section class="text-gray-400 bg-gray-800 body-font relative mb-12" id="contact">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-col text-center w-full mb-12">
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-white">
+                Let's Connect 
+            </h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base">
+                If you find yourself wanting to have your voice heard well your inluck cause we want to hear from you. From birthday shoutouts, to well wishes, we want to give you a chacne to contribute to the content of the show. 
+            </p>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base border-t mt-6 pt-6">
+                Want to get tinvolved with the show? Reach out to learn more about how to become a sponsor of the show. 
+            </p>
+        </div>
+        <!-- This will become the form -->
+        <div class="lg:w-1/2 md:w-2/3 mx-auto">
+            <form method="POST" class="flex flex-wrap -m-2">
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="name" class="leading-7 text-sm text-gray-400">Name</label>
+                        <input type="text" id="name" name="name" class="w-full bg-gray-500 bg-opacity-40 rounded border border-gray-700 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" required>
+                    </div>
+                </div>
+                <div class="p-2 w-1/2">
+                    <div class="relative">
+                        <label for="email" class="leading-7 text-sm text-gray-400">Email</label>
+                        <input type="email" id="email" name="email" class="w-full bg-gray-500 bg-opacity-40 rounded border border-gray-700 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" required>
+                    </div>
+                </div>
+                <div class="p-2 w-full">
+                    <div class="relative">
+                        <label for="message" class="leading-7 text-sm text-gray-400">Message</label>
+                        <textarea id="message" name="message" class="w-full bg-gray-500 bg-opacity-40 rounded border border-gray-700 focus:border-blue-500 focus:bg-gray-900 focus:ring-2 focus:ring-blue-900 h-32 text-base outline-none text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" required></textarea>
+                    </div>
+                </div>
+                <div class="p-2 w-full">
+                    <button class="flex mx-auto text-white bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg">
+                        Send
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
